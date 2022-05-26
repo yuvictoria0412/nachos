@@ -50,6 +50,7 @@ Scheduler::Scheduler()
 {
     // schedulerType = type;
 	// readyList = new List<Thread*>;
+    setPreviousBT(0);
     readyQueue = new SortedList<Thread *>(SJF);
     // lastBTime = 0;
 	toBeDestroyed = NULL;
@@ -86,6 +87,7 @@ Scheduler::ReadyToRun (Thread *thread)
 {
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
+    thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
     if (SJF(thread, kernel->currentThread) < 0) {
         kernel->scheduler->ReadyToRun(kernel->currentThread);
         kernel->scheduler->Run(thread, FALSE);
@@ -167,7 +169,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
 
     kernel->currentThread = nextThread;  // switch to the next thread
     nextThread->setStatus(RUNNING);      // nextThread is now running
-    
+    nextThread->setstartTime(kernel->stats->totalTicks);
     // DEBUG(dbgThread, "Switching from: " << oldThread->getName() << " to: " << nextThread->getName());
     
     // This is a machine-dependent assembly language routine defined 

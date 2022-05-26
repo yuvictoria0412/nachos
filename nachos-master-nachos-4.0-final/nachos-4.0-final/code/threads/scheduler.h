@@ -39,7 +39,8 @@ class Scheduler {
 	void Print();			// Print contents of ready list
    
     // SelfTest for scheduler is implemented in class Thread
-    
+    void setPreviousBT(int x) {PreviousBurstTime = x;}
+	
   private:
 	SchedulerType schedulerType;
 	// List<Thread *> *readyList;	// queue of threads that are ready to run,
@@ -49,7 +50,7 @@ class Scheduler {
 	//Variable definition of sorting rule of readyQueue
 	// static int (*comp)(Thread* x, Thread* y);
 	SortedList<Thread *> *readyQueue;
-	
+	int PreviousBurstTime;
 	
 	//<TODO>
 

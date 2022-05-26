@@ -124,7 +124,10 @@ class Thread {
     int getPredictedBurstTime() {return PredictedBurstTime;}
     void setPredictedBurstTime(int x) {PredictedBurstTime = x;}
     //<TODO>
-
+    void setstartTime(int x) {startTime = x;}
+    void setendTime(int x) {endTime = x;}
+    int getT() {return endTime - startTime;}
+    
   private:
     // some of the private data for this class is listed above
     
@@ -142,6 +145,8 @@ class Thread {
 	int ID;
 	int RunTime;
 	int PredictedBurstTime;
+  int startTime;
+  int endTime;
 	//Trace end>
 
 #ifdef USER_PROGRAM

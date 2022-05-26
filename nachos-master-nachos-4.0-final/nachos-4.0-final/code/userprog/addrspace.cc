@@ -183,10 +183,11 @@ AddrSpace::Load(char *fileName)
 void 
 AddrSpace::Execute(char *fileName) 
 {
-    /*if (!Load(fileName)) {
+    if (!Load(fileName)) {
     cout << "inside !Load(FileName)" << endl;
     return;             // executable not found
-    }*/
+    }
+    
     kernel->currentThread->space = this;
 
     this->InitRegisters();		// set the initial register values
