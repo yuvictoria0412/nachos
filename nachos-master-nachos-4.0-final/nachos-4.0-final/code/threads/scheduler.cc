@@ -33,7 +33,7 @@
 //<TODO>
 // Declare sorting rule of SortedList
 // Hint: Funtion Type should be "static int"
-int SJF (Thread* a, Thread* b) {
+int SJFcmp (Thread* a, Thread* b) {
     if (a->getPredictedBurstTime() == b->getPredictedBurstTime()) {
         if (a->getID() > b->getID()) return -1;
         else if (a->getID() < b->getID()) return 1;
@@ -51,7 +51,7 @@ Scheduler::Scheduler()
     // schedulerType = type;
 	// readyList = new List<Thread*>;
     setPreviousBT(0);
-    readyQueue = new SortedList<Thread *>(SJF);
+    readyQueue = new SortedList<Thread *>(SJFcmp);
     // lastBTime = 0;
 	toBeDestroyed = NULL;
 }
@@ -90,7 +90,7 @@ Scheduler::ReadyToRun (Thread *thread)
     thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
     kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
 
-    if (SJF(thread, kernel->currentThread) < 0) {
+    if (SJFcmp(thread, kernel->currentThread) < 0) {
         kernel->scheduler->ReadyToRun(kernel->currentThread);
         kernel->scheduler->Run(thread, FALSE);
     }
