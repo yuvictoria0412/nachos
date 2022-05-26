@@ -66,7 +66,7 @@ ExceptionHandler(ExceptionType which)
 			// DEBUG(dbgMLFQ, "Print Int");
 			val=kernel->machine->ReadRegister(4);
 			kernel->synchConsoleOut->PutInt(val);
-			DEBUG(dbgSJF, "abcd\n");
+			DEBUG(dbgSJF, "PrintInt\n");
 			return;
 /*		case SC_Exec:
 			DEBUG(dbgAddr, "Exec\n");
