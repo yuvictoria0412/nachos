@@ -29,7 +29,7 @@ const char dbgFile = 'f'; 		// file system (FILESYS)
 const char dbgAddr = 'a'; 		// address spaces (USER_PROGRAM)
 const char dbgNet = 'n'; 		// network emulation (NETWORK)
 //<TODO>
-dbgSJF...
+const char dbgSJF = 'j';
 //<TODO>
 
 class Debug {

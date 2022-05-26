@@ -91,7 +91,7 @@ friend class ListIterator<T>;
 template <class T>
 class SortedList : public List<T> {
   public:
-    SortedList(int (*comp)(T x, T y)) : List<T>() { compare = comp;};
+    SortedList(static int (*comp)(T x, T y)) : List<T>() { compare = comp;};
     ~SortedList() {};		// base class destructor called automatically
 
     void Insert(T item); 	// insert an item onto the list in sorted order
@@ -101,7 +101,7 @@ class SortedList : public List<T> {
 				// verify module is working
 
   private:
-    int (*compare)(T x, T y);	// function for sorting list elements
+    static int (*compare)(T x, T y);	// function for sorting list elements
 
     void Prepend(T item) { Insert(item); }  // *pre*pending has no meaning 
 				             //	in a sorted list

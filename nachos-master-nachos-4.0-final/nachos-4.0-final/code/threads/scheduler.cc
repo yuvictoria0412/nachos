@@ -88,6 +88,8 @@ Scheduler::ReadyToRun (Thread *thread)
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
     thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
+    kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
+
     if (SJF(thread, kernel->currentThread) < 0) {
         kernel->scheduler->ReadyToRun(kernel->currentThread);
         kernel->scheduler->Run(thread, FALSE);
