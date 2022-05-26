@@ -88,6 +88,7 @@ Scheduler::ReadyToRun (Thread *thread)
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
     DEBUG(dbgSJF, "Ready to Run" << thread->getID());
+
     thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
     kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
 
@@ -149,7 +150,7 @@ void
 Scheduler::Run (Thread *nextThread, bool finishing)
 {
     Thread *oldThread = kernel->currentThread;
-    DEBUG(dbgSJF, "Run" << oldThread->getID());
+    DEBUG(dbgSJF, "Run" << oldThread->getID() << " and " << nextThread->getID());
 //	cout << "Current Thread" <<oldThread->getName() << "    Next Thread"<<nextThread->getName()<<endl;
    
     ASSERT(kernel->interrupt->getLevel() == IntOff);
@@ -172,7 +173,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
 
     kernel->currentThread = nextThread;  // switch to the next thread
     nextThread->setStatus(RUNNING);      // nextThread is now running
-    nextThread->setstartTime(kernel->stats->totalTicks);
+    
     // DEBUG(dbgThread, "Switching from: " << oldThread->getName() << " to: " << nextThread->getName());
     
     // This is a machine-dependent assembly language routine defined 
