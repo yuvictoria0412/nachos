@@ -92,7 +92,7 @@ Scheduler::ReadyToRun (Thread *thread)
     thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
     kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
 
-    if (SJFcmp(thread, kernel->currentThread) < 0) {
+    if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
         kernel->scheduler->ReadyToRun(kernel->currentThread);
         kernel->scheduler->Run(thread, FALSE);
     }
