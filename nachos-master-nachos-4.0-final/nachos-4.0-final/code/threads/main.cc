@@ -81,7 +81,7 @@ main(int argc, char **argv)
     kernel->Initialize();
     
     CallOnUserAbort(Cleanup);		// if user hits ctl-C
-    DEBUG(dbgSJF, "Entering main 3");
+    
 
     // kernel->SelfTest();
 
@@ -89,6 +89,7 @@ main(int argc, char **argv)
     // kernel->Run();
     
     kernel->InitializeAllThreads();
+    DEBUG(dbgSJF, "Entering main 3");
     //<REPORT>
 
     
