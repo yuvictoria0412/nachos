@@ -74,20 +74,20 @@ main(int argc, char **argv)
     }
     debug = new Debug(debugArg);
     
-    DEBUG(dbgThread, "Entering main");
-    
+    DEBUG(dbgThread, "Entering main 1");
+    DEBUG(dbgSJF, "Entering main 2");
 
     kernel = new KernelType(argc, argv);
     kernel->Initialize();
     
     CallOnUserAbort(Cleanup);		// if user hits ctl-C
-
+    DEBUG(dbgSJF, "Entering main 3");
 
     // kernel->SelfTest();
 
     //<REPORT>
     // kernel->Run();
-    DEBUG(dbgSJF, "Entering main");
+    
     kernel->InitializeAllThreads();
     //<REPORT>
 
