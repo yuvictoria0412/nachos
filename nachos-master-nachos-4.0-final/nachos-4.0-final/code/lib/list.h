@@ -101,7 +101,7 @@ class SortedList : public List<T> {
 				// verify module is working
 
   private:
-    static int (*compare)(T x, T y);	// function for sorting list elements
+    int (*compare)(T x, T y);	// function for sorting list elements
 
     void Prepend(T item) { Insert(item); }  // *pre*pending has no meaning 
 				             //	in a sorted list
