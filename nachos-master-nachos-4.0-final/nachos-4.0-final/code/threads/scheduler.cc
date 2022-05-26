@@ -87,6 +87,7 @@ Scheduler::ReadyToRun (Thread *thread)
 {
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
+    DEBUG(dbgSJF, "Ready to Run" << thread->getID());
     thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
     kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
 
@@ -148,7 +149,7 @@ void
 Scheduler::Run (Thread *nextThread, bool finishing)
 {
     Thread *oldThread = kernel->currentThread;
- 
+    DEBUG(dbgSJF, "Run" << oldThread->getID());
 //	cout << "Current Thread" <<oldThread->getName() << "    Next Thread"<<nextThread->getName()<<endl;
    
     ASSERT(kernel->interrupt->getLevel() == IntOff);
