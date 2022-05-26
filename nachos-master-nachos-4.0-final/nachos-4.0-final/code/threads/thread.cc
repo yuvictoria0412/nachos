@@ -105,8 +105,11 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
     StackAllocate(func, arg);
 
     oldLevel = interrupt->SetLevel(IntOff);
-    kernel->currentThread->setstartTime(kernel->stats->totalTicks);
-    kernel->currentThread->setendTime(kernel->stats->totalTicks);
+    this->setstartTime(kernel->stats->totalTicks);
+    if (this->getID() == 0) {
+        this->setendTime(kernel->stats->totalTicks);
+    }
+    
     scheduler->ReadyToRun(this);	// ReadyToRun assumes that interrupts 
 					// are disabled!
     (void) interrupt->SetLevel(oldLevel);
