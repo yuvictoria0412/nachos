@@ -33,7 +33,7 @@
 //<TODO>
 // Declare sorting rule of SortedList
 // Hint: Funtion Type should be "static int"
-static int SJF (Thread* a, Thread* b) {
+int SJF (Thread* a, Thread* b) {
     if (a->getPredictedBurstTime() == b->getPredictedBurstTime()) {
         if (a->getID() > b->getID()) return -1;
         else if (a->getID() < b->getID()) return 1;
