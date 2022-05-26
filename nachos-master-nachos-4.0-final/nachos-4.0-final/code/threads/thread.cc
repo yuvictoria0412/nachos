@@ -105,6 +105,8 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
     StackAllocate(func, arg);
 
     oldLevel = interrupt->SetLevel(IntOff);
+    kernel->currentThread->setstartTime(kernel->stats->totalTicks);
+    kernel->currentThread->setendTime(kernel->stats->totalTicks);
     scheduler->ReadyToRun(this);	// ReadyToRun assumes that interrupts 
 					// are disabled!
     (void) interrupt->SetLevel(oldLevel);
@@ -180,7 +182,7 @@ Thread::Finish ()
     ASSERT(this == kernel->currentThread);
     
     DEBUG(dbgThread, "Finishing thread: " << name << ", ID: " << ID);
-    
+
     Sleep(TRUE);				// invokes SWITCH
     // not reached
 }
@@ -216,7 +218,7 @@ Thread::Yield ()
 	ASSERT(this == kernel->currentThread);
 
 	DEBUG(dbgThread, "Yielding thread: " << name);
-
+    kernel->currentThread->setendTime(kernel->stats->totalTicks);
 	nextThread = kernel->scheduler->FindNextToRun();
 	if (nextThread != NULL) {
 		kernel->scheduler->ReadyToRun(this);
@@ -261,7 +263,7 @@ Thread::Sleep (bool finishing)
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
 
 	DEBUG(dbgThread, "Sleeping thread: " << name);
-
+    kernel->currentThread->setendTime(kernel->stats->totalTicks);
 	status = BLOCKED;
 	while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL)
 		kernel->interrupt->Idle();	// no one to run, wait for an interrupt
