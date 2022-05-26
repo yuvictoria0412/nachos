@@ -106,7 +106,7 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
 
     oldLevel = interrupt->SetLevel(IntOff);
     this->setstartTime(kernel->stats->totalTicks);
-    if (this->getID() == 0) {
+    if (this->getID() == 0 || this->getID() == 1) {
         this->setendTime(kernel->stats->totalTicks);
     }
     
