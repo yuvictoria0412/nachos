@@ -105,8 +105,9 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
     StackAllocate(func, arg);
 
     oldLevel = interrupt->SetLevel(IntOff);
-    this->setstartTime(kernel->stats->totalTicks);
-    if (this->getID() == 0 || this->getID() == 1) {
+    
+    if (this->getID() == 0) {
+        this->setstartTime(kernel->stats->totalTicks);
         this->setendTime(kernel->stats->totalTicks);
     }
     

@@ -89,21 +89,21 @@ Scheduler::ReadyToRun (Thread *thread)
     // victoria
     DEBUG(dbgSJF, "Ready to Run" << thread->getID());
 
-    // thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
-    // kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
-    // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
+    thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
+    kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
+    DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-    // if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
+    if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
         
-    //     kernel->scheduler->ReadyToRun(kernel->currentThread);
-    //     kernel->scheduler->Run(thread, FALSE);
-    // }
-    // // victoria
-    // else {
+        kernel->scheduler->ReadyToRun(kernel->currentThread);
+        kernel->scheduler->Run(thread, FALSE);
+    }
+    // victoria
+    else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
-    // }
+    }
 }
 //<TODO>
 
@@ -151,6 +151,7 @@ Scheduler::FindNextToRun ()
 void
 Scheduler::Run (Thread *nextThread, bool finishing)
 {
+    kernel->currentThread->setstartTime(kernel->stats->totalTicks);
     Thread *oldThread = kernel->currentThread;
     DEBUG(dbgSJF, "Run" << oldThread->getID() << " and " << nextThread->getID());
 	// cout << "Current Thread" <<oldThread->getName() << "    Next Thread"<<nextThread->getName()<<endl;
