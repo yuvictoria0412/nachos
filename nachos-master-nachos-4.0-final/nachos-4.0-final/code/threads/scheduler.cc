@@ -105,6 +105,7 @@ Scheduler::ReadyToRun (Thread *thread)
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
     if (SJFcmp(thread, kernel->currentThread) < 0) {
+        DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
         kernel->scheduler->ReadyToRun(kernel->currentThread);
         kernel->scheduler->Run(thread, FALSE);
     }
