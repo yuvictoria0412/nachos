@@ -40,7 +40,7 @@ class Scheduler {
    
     // SelfTest for scheduler is implemented in class Thread
     void setPreviousBT(int x) {PreviousBurstTime = x;}
-	
+	Thread* lastThread;
 
   private:
 	SchedulerType schedulerType;
