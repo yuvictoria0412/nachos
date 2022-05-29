@@ -88,7 +88,7 @@ Scheduler::ReadyToRun (Thread *thread)
 {
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
-    DEBUG(dbgSJF, "put in ready queue: " << thread->getID());
+    // DEBUG(dbgSJF, "put in ready queue: " << thread->getID());
     
     if (kernel->currentThread == NULL) {
         thread->setPredictedBurstTime(0);
@@ -97,24 +97,24 @@ Scheduler::ReadyToRun (Thread *thread)
     else {
         thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * PreviousBurstTime);
         kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
-        DEBUG(dbgSJF, "current thread T/start/end " << kernel->currentThread->getT() << " / " << kernel->currentThread->getstartTime() << " / " << kernel->currentThread->getendTime());
-        DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << thread->getPredictedBurstTime());
+        DEBUG(dbgSJF, "[" <<  kernel->currentThread->getID() << "] current thread T/start/end " << kernel->currentThread->getT() << " / " << kernel->currentThread->getstartTime() << " / " << kernel->currentThread->getendTime());
+        // DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << thread->getPredictedBurstTime());
     }
     
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-    if (SJFcmp(thread, kernel->currentThread) < 0) {
+    // if (SJFcmp(thread, kernel->currentThread) < 0) {
         
-        kernel->scheduler->ReadyToRun(kernel->currentThread);
-        kernel->scheduler->Run(thread, FALSE);
-    }
-    // victoria
-    else {
+    //     kernel->scheduler->ReadyToRun(kernel->currentThread);
+    //     kernel->scheduler->Run(thread, FALSE);
+    // }
+    // // victoria
+    // else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
-    }
+    // }
 }
 //<TODO>
 
