@@ -106,10 +106,10 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
 
     oldLevel = interrupt->SetLevel(IntOff);
     
-    // if (this->getID() == 0) {
-        // this->setstartTime(kernel->stats->totalTicks);
-        this->setendTime(kernel->stats->totalTicks);
-        DEBUG(dbgSJF, "[" << this->getID() << "]" << " FORK setendTime: " << kernel->stats->totalTicks);
+    // if (kernel->currentThread != NULL) {
+    //     // this->setstartTime(kernel->stats->totalTicks);
+    //     this->setendTime(kernel->stats->totalTicks);
+    //     DEBUG(dbgSJF, "[" << this->getID() << "]" << " FORK setendTime: " << kernel->stats->totalTicks);
     // }
     
     scheduler->ReadyToRun(this);	// ReadyToRun assumes that interrupts 
@@ -273,7 +273,7 @@ Thread::Sleep (bool finishing)
 
 	DEBUG(dbgThread, "Sleeping thread: " << name);
     ///
-    this->setendTime(kernel->stats->totalTicks);
+    kernel->currentThread->setendTime(kernel->stats->totalTicks);
     DEBUG(dbgSJF, "[" << this->getID() << "] SLEEP setendTime: " << kernel->stats->totalTicks);
     ///
 	status = BLOCKED;

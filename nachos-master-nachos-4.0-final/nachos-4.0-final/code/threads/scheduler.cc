@@ -35,8 +35,8 @@
 // Hint: Funtion Type should be "static int"
 int SJFcmp (Thread* a, Thread* b) {
     if (a->getPredictedBurstTime() == b->getPredictedBurstTime()) {
-        if (a->getID() > b->getID()) return -1;
-        else if (a->getID() < b->getID()) return 1;
+        if (a->getID() < b->getID()) return -1;
+        else if (a->getID() > b->getID()) return 1;
         else return 0;
     }
     else if (a->getPredictedBurstTime() < b->getPredictedBurstTime()) {return -1;}
@@ -104,16 +104,16 @@ Scheduler::ReadyToRun (Thread *thread)
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-    if (SJFcmp(thread, kernel->currentThread) < 0) {
-        DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
-        kernel->scheduler->ReadyToRun(kernel->currentThread);
-        kernel->scheduler->Run(thread, FALSE);
-    }
-    else {
+    // if (SJFcmp(thread, kernel->currentThread) < 0) {
+    //     DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
+    //     kernel->scheduler->ReadyToRun(kernel->currentThread);
+    //     kernel->scheduler->Run(thread, FALSE);
+    // }
+    // else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
-    }
+    // }
 }
 //<TODO>
 
