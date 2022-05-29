@@ -104,17 +104,15 @@ Scheduler::ReadyToRun (Thread *thread)
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-    // if (SJFcmp(thread, kernel->currentThread) < 0) {
-        
-    //     kernel->scheduler->ReadyToRun(kernel->currentThread);
-    //     kernel->scheduler->Run(thread, FALSE);
-    // }
-    // // victoria
-    // else {
+    if (SJFcmp(thread, kernel->currentThread) < 0) {
+        kernel->scheduler->ReadyToRun(kernel->currentThread);
+        kernel->scheduler->Run(thread, FALSE);
+    }
+    else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
-    // }
+    }
 }
 //<TODO>
 
