@@ -88,7 +88,7 @@ Scheduler::ReadyToRun (Thread *thread)
 {
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
-    DEBUG(dbgSJF, "Ready to Run" << thread->getID());
+    DEBUG(dbgSJF, "put in ready queue: " << thread->getID());
     
     if (kernel->currentThread == NULL) {
         thread->setPredictedBurstTime(0);
@@ -163,6 +163,7 @@ void
 Scheduler::Run (Thread *nextThread, bool finishing)
 {
     kernel->currentThread->setstartTime(kernel->stats->totalTicks);
+    DEBUG(dbgSJF, this->getID() << " setstartTime: " << kernel->stats->totalTicks);
     Thread *oldThread = kernel->currentThread;
     DEBUG(dbgSJF, "Run" << oldThread->getID() << " and " << nextThread->getID());
 	// cout << "Current Thread" <<oldThread->getName() << "    Next Thread"<<nextThread->getName()<<endl;

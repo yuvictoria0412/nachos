@@ -109,6 +109,7 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
     // if (this->getID() == 0) {
         // this->setstartTime(kernel->stats->totalTicks);
         this->setendTime(kernel->stats->totalTicks);
+        DEBUG(dbgSJF, this->getID() << " setendTime: " << kernel->stats->totalTicks);
     // }
     
     scheduler->ReadyToRun(this);	// ReadyToRun assumes that interrupts 
@@ -224,6 +225,7 @@ Thread::Yield ()
 	DEBUG(dbgThread, "Yielding thread: " << name);
     //
     this->setendTime(kernel->stats->totalTicks);
+    DEBUG(dbgSJF, this->getID() << " setendTime: " << kernel->stats->totalTicks);
     //
 	nextThread = kernel->scheduler->FindNextToRun();
 	if (nextThread != NULL) {
@@ -271,6 +273,7 @@ Thread::Sleep (bool finishing)
 	DEBUG(dbgThread, "Sleeping thread: " << name);
     ///
     this->setendTime(kernel->stats->totalTicks);
+    DEBUG(dbgSJF, this->getID() << " setendTime: " << kernel->stats->totalTicks);
     ///
 	status = BLOCKED;
 	while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL)
