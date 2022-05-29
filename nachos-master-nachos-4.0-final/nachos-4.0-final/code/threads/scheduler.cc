@@ -161,8 +161,9 @@ Scheduler::FindNextToRun ()
 void
 Scheduler::Run (Thread *nextThread, bool finishing)
 {
-    kernel->currentThread->setstartTime(kernel->stats->totalTicks);
-    DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
+    nextThread->setstartTime(kernel->stats->totalTicks);
+    DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
+    
     Thread *oldThread = kernel->currentThread;
     DEBUG(dbgSJF, "Run" << oldThread->getID() << " and " << nextThread->getID());
 	// cout << "Current Thread" <<oldThread->getName() << "    Next Thread"<<nextThread->getName()<<endl;
