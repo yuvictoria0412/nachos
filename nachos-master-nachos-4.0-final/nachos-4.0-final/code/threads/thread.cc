@@ -228,6 +228,7 @@ Thread::Yield ()
 	if (nextThread != NULL) {
         //
         this->setendTime(kernel->stats->totalTicks);
+        kernel->scheduler->lastThread = kernel->currentThread;
         DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
         //
 		kernel->scheduler->ReadyToRun(this);
@@ -274,6 +275,7 @@ Thread::Sleep (bool finishing)
 	DEBUG(dbgThread, "Sleeping thread: " << name);
     ///
     kernel->currentThread->setendTime(kernel->stats->totalTicks);
+    kernel->scheduler->lastThread = kernel->currentThread;
     DEBUG(dbgSJF, "[" << this->getID() << "] SLEEP setendTime: " << kernel->stats->totalTicks);
     ///
 	status = BLOCKED;

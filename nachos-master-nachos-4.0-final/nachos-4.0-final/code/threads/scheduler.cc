@@ -95,7 +95,7 @@ Scheduler::ReadyToRun (Thread *thread)
     //     DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << 0);
     // }
     // else {
-        thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * PreviousBurstTime);
+        thread->setPredictedBurstTime(0.5 * lastThread->getT() + 0.5 * PreviousBurstTime);
         kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
         DEBUG(dbgSJF, "[" <<  kernel->currentThread->getID() << "] current thread T/start/end " << kernel->currentThread->getT() << " / " << kernel->currentThread->getstartTime() << " / " << kernel->currentThread->getendTime());
         // DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << thread->getPredictedBurstTime());
@@ -107,6 +107,7 @@ Scheduler::ReadyToRun (Thread *thread)
     if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
         DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
         kernel->currentThread->setendTime(kernel->stats->totalTicks);
+        this->lastThread = kernel->currentThread;
         DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "] PREEMPT setendTime: " << kernel->stats->totalTicks);
         kernel->scheduler->ReadyToRun(kernel->currentThread);
         kernel->scheduler->Run(thread, FALSE);
@@ -204,7 +205,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
     /*victoria*/
     nextThread->setstartTime(kernel->stats->totalTicks);
     DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
-    
+
     // we're back, running oldThread
       
     // interrupts are off when we return from switch!
