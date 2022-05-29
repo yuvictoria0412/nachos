@@ -44,6 +44,7 @@ int SJFcmp (Thread* a, Thread* b) {
 }
 //<TODO>
 
+
 //<TODO>
 // Initialize ReadyQueue
 Scheduler::Scheduler()
@@ -88,12 +89,19 @@ Scheduler::ReadyToRun (Thread *thread)
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
     DEBUG(dbgSJF, "Ready to Run" << thread->getID());
+    
+    if (kernel->currentThread == NULL) {
+        thread->setPredictedBurstTime(0);
+    }
+    else {
+        thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * PreviousBurstTime);
+        kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
+    }
+    
 
-    thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * (PreviousBurstTime));
-    kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
     DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-    if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
+    if (SJFcmp(thread, kernel->currentThread) < 0) {
         
         kernel->scheduler->ReadyToRun(kernel->currentThread);
         kernel->scheduler->Run(thread, FALSE);
