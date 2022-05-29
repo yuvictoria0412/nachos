@@ -123,11 +123,13 @@ class Thread {
 	  // 3. set/get PredictedBurstTime
     int getPredictedBurstTime() {return PredictedBurstTime;}
     void setPredictedBurstTime(int x) {PredictedBurstTime = x;}
-    //<TODO>
+    int getstartTime() {return startTime;}
+    int getendTime() {return endTime;}
     void setstartTime(int x) {startTime = x;}
     void setendTime(int x) {endTime = x;}
     int getT() {return endTime - startTime;}
-    
+  //<TODO>
+
   private:
     // some of the private data for this class is listed above
     
