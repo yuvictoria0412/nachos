@@ -108,8 +108,8 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
     
     // if (this->getID() == 0) {
         // this->setstartTime(kernel->stats->totalTicks);
-        this->setendTime(kernel->stats->totalTicks);
-        DEBUG(dbgSJF, "[" << this->getID() << "]" << " FORK setendTime: " << kernel->stats->totalTicks);
+        // this->setendTime(kernel->stats->totalTicks);
+        // DEBUG(dbgSJF, "[" << this->getID() << "]" << " FORK setendTime: " << kernel->stats->totalTicks);
     // }
     
     scheduler->ReadyToRun(this);	// ReadyToRun assumes that interrupts 
@@ -223,12 +223,13 @@ Thread::Yield ()
 	ASSERT(this == kernel->currentThread);
 
 	DEBUG(dbgThread, "Yielding thread: " << name);
-    //
-    this->setendTime(kernel->stats->totalTicks);
-    DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
-    //
+    
 	nextThread = kernel->scheduler->FindNextToRun();
 	if (nextThread != NULL) {
+        //
+        this->setendTime(kernel->stats->totalTicks);
+        DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
+        //
 		kernel->scheduler->ReadyToRun(this);
 		kernel->scheduler->Run(nextThread, FALSE);
 	}
