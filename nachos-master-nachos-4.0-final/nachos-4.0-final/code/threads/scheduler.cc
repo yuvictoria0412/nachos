@@ -164,8 +164,7 @@ Scheduler::FindNextToRun ()
 void
 Scheduler::Run (Thread *nextThread, bool finishing)
 {
-    nextThread->setstartTime(kernel->stats->totalTicks);
-    DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
+    
 
     Thread *oldThread = kernel->currentThread;
     DEBUG(dbgSJF, "Run old: " << oldThread->getID() << " new: " << nextThread->getID());
@@ -201,7 +200,11 @@ Scheduler::Run (Thread *nextThread, bool finishing)
 
     cout << "Switching from: " << oldThread->getID() << " to: " << nextThread->getID() << endl;
     SWITCH(oldThread, nextThread);
-
+    
+    /*victoria*/
+    nextThread->setstartTime(kernel->stats->totalTicks);
+    DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
+    
     // we're back, running oldThread
       
     // interrupts are off when we return from switch!
