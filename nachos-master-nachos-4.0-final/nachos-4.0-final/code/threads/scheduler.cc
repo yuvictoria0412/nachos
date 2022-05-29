@@ -168,7 +168,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
     
 
     Thread *oldThread = kernel->currentThread;
-    DEBUG(dbgSJF, "Run old: " << oldThread->getID() << " new: " << nextThread->getID());
+    // DEBUG(dbgSJF, "Run old: " << oldThread->getID() << " new: " << nextThread->getID());
 	// cout << "Current Thread" <<oldThread->getName() << "    Next Thread"<<nextThread->getName()<<endl;
    
     ASSERT(kernel->interrupt->getLevel() == IntOff);
@@ -202,10 +202,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
     cout << "Switching from: " << oldThread->getID() << " to: " << nextThread->getID() << endl;
     nextThread->setstartTime(kernel->stats->totalTicks);
     DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
-    SWITCH(oldThread, nextThread);
-    
-    /*victoria*/
-    
+    SWITCH(oldThread, nextThread);    
 
     // we're back, running oldThread
       
@@ -213,6 +210,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
     ASSERT(kernel->interrupt->getLevel() == IntOff);
 
     DEBUG(dbgThread, "Now in thread: " << kernel->currentThread->getID());
+    DEBUG(dbgSJF, "Now in thread: " << kernel->currentThread->getID());
 
     CheckToBeDestroyed();		// check if thread we were running
 					// before this one has finished
