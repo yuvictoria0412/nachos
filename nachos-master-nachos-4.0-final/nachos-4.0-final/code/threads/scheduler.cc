@@ -104,16 +104,16 @@ Scheduler::ReadyToRun (Thread *thread)
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-    // if (SJFcmp(thread, kernel->currentThread) < 0) {
-    //     DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
-    //     kernel->scheduler->ReadyToRun(kernel->currentThread);
-    //     kernel->scheduler->Run(thread, FALSE);
-    // }
-    // else {
+    if (SJFcmp(thread, kernel->currentThread) < 0) {
+        DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
+        kernel->scheduler->ReadyToRun(kernel->currentThread);
+        kernel->scheduler->Run(thread, FALSE);
+    }
+    else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
-    // }
+    }
 }
 //<TODO>
 
@@ -163,7 +163,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
 {
     nextThread->setstartTime(kernel->stats->totalTicks);
     DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
-    
+
     Thread *oldThread = kernel->currentThread;
     DEBUG(dbgSJF, "Run" << oldThread->getID() << " and " << nextThread->getID());
 	// cout << "Current Thread" <<oldThread->getName() << "    Next Thread"<<nextThread->getName()<<endl;
