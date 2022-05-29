@@ -97,7 +97,7 @@ Scheduler::ReadyToRun (Thread *thread)
     else {
         thread->setPredictedBurstTime(0.5 * lastThread->getT() + 0.5 * PreviousBurstTime);
         kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
-        DEBUG(dbgSJF, "[" <<  kernel->currentThread->getID() << "] current thread T/start/end " << kernel->currentThread->getT() << " / " << kernel->currentThread->getstartTime() << " / " << kernel->currentThread->getendTime());
+        DEBUG(dbgSJF, "[" << thread->getID() << "] current thread T/start/end " << lastThread->getT() << " / " << lastThread->getstartTime() << " / " << lastThread->getendTime());
         // DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << thread->getPredictedBurstTime());
     }
     
