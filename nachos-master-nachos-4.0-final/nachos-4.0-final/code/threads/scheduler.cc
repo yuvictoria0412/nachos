@@ -104,7 +104,7 @@ Scheduler::ReadyToRun (Thread *thread)
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-    if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
+    if (kernel->currentThread->getID() != 0 && kernel->currentThread->getID() != thread->getID() && SJFcmp(thread, kernel->currentThread) < 0) {
         DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
         kernel->currentThread->setendTime(kernel->stats->totalTicks);
         this->lastThread = kernel->currentThread;
@@ -200,11 +200,12 @@ Scheduler::Run (Thread *nextThread, bool finishing)
     // of view of the thread and from the perspective of the "outside world".
 
     cout << "Switching from: " << oldThread->getID() << " to: " << nextThread->getID() << endl;
+    nextThread->setstartTime(kernel->stats->totalTicks);
+    DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
     SWITCH(oldThread, nextThread);
     
     /*victoria*/
-    nextThread->setstartTime(kernel->stats->totalTicks);
-    DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
+    
 
     // we're back, running oldThread
       

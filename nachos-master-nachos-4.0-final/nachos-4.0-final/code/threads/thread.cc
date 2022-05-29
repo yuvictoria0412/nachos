@@ -107,7 +107,7 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
     oldLevel = interrupt->SetLevel(IntOff);
     
     // if (kernel->currentThread != NULL) {
-    //     // this->setstartTime(kernel->stats->totalTicks);
+        this->setstartTime(kernel->stats->totalTicks);
     //     this->setendTime(kernel->stats->totalTicks);
     //     DEBUG(dbgSJF, "[" << this->getID() << "]" << " FORK setendTime: " << kernel->stats->totalTicks);
     // }
