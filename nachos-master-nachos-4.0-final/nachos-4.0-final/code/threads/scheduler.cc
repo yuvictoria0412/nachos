@@ -88,18 +88,18 @@ Scheduler::ReadyToRun (Thread *thread)
 {
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
-    // DEBUG(dbgSJF, "put in ready queue: " << thread->getID());
+    DEBUG(dbgSJF, "Ready to run" << kernel->currentThread->getID() << "->" << thread->getID());
     
-    if (kernel->currentThread == NULL) {
-        thread->setPredictedBurstTime(0);
-        DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << 0);
-    }
-    else {
+    // if (kernel->currentThread == NULL) {
+    //     thread->setPredictedBurstTime(0);
+    //     DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << 0);
+    // }
+    // else {
         thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * PreviousBurstTime);
         kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
         DEBUG(dbgSJF, "[" <<  kernel->currentThread->getID() << "] current thread T/start/end " << kernel->currentThread->getT() << " / " << kernel->currentThread->getstartTime() << " / " << kernel->currentThread->getendTime());
         // DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << thread->getPredictedBurstTime());
-    }
+    // }
     
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
@@ -111,6 +111,8 @@ Scheduler::ReadyToRun (Thread *thread)
     }
     else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
+        kernel->currentThread->setendTime(kernel->stats->totalTicks);
+        DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "] PREEMPT setendTime: " << kernel->stats->totalTicks);
         thread->setStatus(READY);
         readyQueue->Insert(thread);
     }
@@ -165,7 +167,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
     DEBUG(dbgSJF, "[" << nextThread->getID() << "]" << " RUN setstartTime: " << kernel->stats->totalTicks);
 
     Thread *oldThread = kernel->currentThread;
-    DEBUG(dbgSJF, "Run" << oldThread->getID() << " and " << nextThread->getID());
+    DEBUG(dbgSJF, "Run old: " << oldThread->getID() << " new: " << nextThread->getID());
 	// cout << "Current Thread" <<oldThread->getName() << "    Next Thread"<<nextThread->getName()<<endl;
    
     ASSERT(kernel->interrupt->getLevel() == IntOff);
