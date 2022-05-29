@@ -92,14 +92,17 @@ Scheduler::ReadyToRun (Thread *thread)
     
     if (kernel->currentThread == NULL) {
         thread->setPredictedBurstTime(0);
+        DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << 0);
     }
     else {
         thread->setPredictedBurstTime(0.5 * kernel->currentThread->getT() + 0.5 * PreviousBurstTime);
         kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
+        DEBUG(dbgSJF, "current thread T: " << kernel->currentThread->getT());
+        DEBUG(dbgSJF, kernel->currentThread->getID() << ": predicted burst time = " << thread->getPredictedBurstTime());
     }
     
 
-    DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
+    // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
     if (SJFcmp(thread, kernel->currentThread) < 0) {
         
