@@ -235,9 +235,9 @@ Thread::Yield ()
         
         //
 		kernel->scheduler->ReadyToRun(this);
-        DEBUG(dbgSJF, "<YS> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now 
-                selected for execution, thread [" << this->getID() << "] is replaced, and it has 
-                executed [" << this->getT() << "] ticks");
+        DEBUG(dbgSJF, "<YS> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << 
+                "] is now selected for execution, thread [" << this->getID() << 
+                "] is replaced, and it has executed [" << this->getT() << "] ticks");
 
 		kernel->scheduler->Run(nextThread, FALSE);
 	}
@@ -291,9 +291,9 @@ Thread::Sleep (bool finishing)
 		kernel->interrupt->Idle();	// no one to run, wait for an interrupt
     
 		// returns when it's time for us to run
-    DEBUG(dbgSJF, "<S> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now 
-                selected for execution, thread [" << this->getID() << "] is replaced, and it has 
-                executed [" << this->getT() << "] ticks");
+    DEBUG(dbgSJF, "<S> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << 
+            "] is now selected for execution, thread [" << this->getID() << 
+            "] is replaced, and it has executed [" << this->getT() << "] ticks");
 	kernel->scheduler->Run(nextThread, finishing);
 }
 //<TODO>
