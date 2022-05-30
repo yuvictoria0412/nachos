@@ -90,7 +90,7 @@ Semaphore::P()
     	queue->Append(currentThread);	// so go to sleep
     	currentThread->Sleep(FALSE);
         // cout << "Run to Waiting over" << currentThread->getID() << endl;
-        DEBUG(dbgSJF, "Run to Waiting over" << currentThread->getID());
+        // DEBUG(dbgSJF, "Run to Waiting over" << currentThread->getID());
     } 
     value--; 			// semaphore available, consume its value
    
@@ -117,7 +117,7 @@ Semaphore::V()
     if (!queue->IsEmpty()) {  // make thread ready.
 	   kernel->scheduler->ReadyToRun(queue->RemoveFront());
     //    cout << "Ready to Run over"  << currentThread->getID() << endl;
-        DEBUG(dbgSJF, "Run to Run over" << kernel->currentThread->getID());
+        // DEBUG(dbgSJF, "Run to Run over" << kernel->currentThread->getID());
     }
     value++;
     

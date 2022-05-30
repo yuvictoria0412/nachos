@@ -89,13 +89,13 @@ Scheduler::ReadyToRun (Thread *thread)
 {
 	ASSERT(kernel->interrupt->getLevel() == IntOff);
     // victoria
-    DEBUG(dbgSJF, "Ready to run" << kernel->currentThread->getID() << "->" << thread->getID());
+    DEBUG(dbgSJF, "             Ready to run" << kernel->currentThread->getID() << "->" << thread->getID());
     
-    if (kernel->currentThread->getID() == 0) {
-        thread->setPredictedBurstTime(0);
-        DEBUG(dbgSJF, "[" <<  kernel->currentThread->getID() << "] init ");
-    }
-    else {
+    // if (kernel->currentThread->getID() == 0) {
+    //     thread->setPredictedBurstTime(0);
+    //     // DEBUG(dbgSJF, "[" <<  kernel->currentThread->getID() << "] init ");
+    // }
+    // else {
         int preBT = PreviousBurstTime, BT = BurstTime;
         thread->setPredictedBurstTime(0.5 * BurstTime + 0.5 * PreviousBurstTime);
         kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
@@ -106,7 +106,7 @@ Scheduler::ReadyToRun (Thread *thread)
         DEBUG(dbgSJF, "<U> Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << 
             "] update approximate burst time, from: [" << preBT << "] + [" << BT << "], to [" << PreviousBurstTime << "]");
         //
-    }
+    // }
     
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
@@ -115,7 +115,7 @@ Scheduler::ReadyToRun (Thread *thread)
                   "] and [" << thread->getPredictedBurstTime() << "]***");
 
    if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
-        DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
+        DEBUG(dbgSJF, "              preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
         // kernel->currentThread->setendTime(kernel->stats->totalTicks);
         // this->lastThread = kernel->currentThread;
         // DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "] PREEMPT setendTime: " << kernel->stats->totalTicks);
@@ -127,7 +127,7 @@ Scheduler::ReadyToRun (Thread *thread)
     }
     else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
-        DEBUG(dbgSJF, "Putting thread on ready list: " << thread->getID());
+        DEBUG(dbgSJF, "              Putting thread on ready list: " << thread->getID());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
         
@@ -231,7 +231,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
     ASSERT(kernel->interrupt->getLevel() == IntOff);
 
     DEBUG(dbgThread, "Now in thread: " << kernel->currentThread->getID());
-    DEBUG(dbgSJF, "Now in thread: " << kernel->currentThread->getID());
+    // DEBUG(dbgSJF, "Now in thread: " << kernel->currentThread->getID());
 
     CheckToBeDestroyed();		// check if thread we were running
 					// before this one has finished

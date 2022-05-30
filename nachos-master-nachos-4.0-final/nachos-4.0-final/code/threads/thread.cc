@@ -187,7 +187,7 @@ Thread::Finish ()
     ASSERT(this == kernel->currentThread);
     
     DEBUG(dbgThread, "Finishing thread: " << name << ", ID: " << ID);
-    DEBUG(dbgSJF, "Finishing thread: " << kernel->currentThread->getID());
+    DEBUG(dbgSJF, "      Finishing thread: " << kernel->currentThread->getID());
     Sleep(TRUE);				// invokes SWITCH
     // not reached
 }
@@ -228,7 +228,7 @@ Thread::Yield ()
     kernel->scheduler->setBurstTime(this->getT());
     cout << "updated burst time" << this->getT() << endl;
     // kernel->scheduler->lastThread = kernel->currentThread;
-    DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
+    // DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
 
 	nextThread = kernel->scheduler->FindNextToRun();
 	if (nextThread != NULL) {
@@ -284,9 +284,9 @@ Thread::Sleep (bool finishing)
     ///
     this->setendTime(kernel->stats->totalTicks);
     // kernel->scheduler->lastThread = kernel->currentThread;
-    DEBUG(dbgSJF, "[" << this->getID() << "] SLEEP setendTime: " << kernel->stats->totalTicks);
+    // DEBUG(dbgSJF, "[" << this->getID() << "] SLEEP setendTime: " << kernel->stats->totalTicks);
     kernel->scheduler->setBurstTime(this->getT());
-    cout << "updated burst time" << this->getT() << endl;
+    cout << "       updated burst time" << this->getT() << endl;
     ///
 	status = BLOCKED;
 	while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL)
