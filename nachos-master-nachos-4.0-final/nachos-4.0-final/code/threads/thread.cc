@@ -226,7 +226,7 @@ Thread::Yield ()
 
     this->setendTime(kernel->stats->totalTicks);
     kernel->scheduler->setBurstTime(this->getT());
-    cout << "updated burst time" << this->getT() << endl;
+    // cout << "updated burst time" << this->getT() << endl;
     // kernel->scheduler->lastThread = kernel->currentThread;
     // DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
 
@@ -286,7 +286,7 @@ Thread::Sleep (bool finishing)
     // kernel->scheduler->lastThread = kernel->currentThread;
     // DEBUG(dbgSJF, "[" << this->getID() << "] SLEEP setendTime: " << kernel->stats->totalTicks);
     kernel->scheduler->setBurstTime(this->getT());
-    cout << "       updated burst time" << this->getT() << endl;
+    // cout << "       updated burst time" << this->getT() << endl;
     ///
 	status = BLOCKED;
 	while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL)
