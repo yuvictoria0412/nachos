@@ -107,7 +107,7 @@ Thread::Fork(VoidFunctionPtr func, void *arg)
     oldLevel = interrupt->SetLevel(IntOff);
     
     // if (kernel->currentThread != NULL) {
-        this->setstartTime(kernel->stats->totalTicks);
+        // this->setstartTime(kernel->stats->totalTicks);
     //     this->setendTime(kernel->stats->totalTicks);
     //     DEBUG(dbgSJF, "[" << this->getID() << "]" << " FORK setendTime: " << kernel->stats->totalTicks);
     // }
@@ -223,13 +223,15 @@ Thread::Yield ()
 	ASSERT(this == kernel->currentThread);
 
 	DEBUG(dbgThread, "Yielding thread: " << name);
+
+    this->setendTime(kernel->stats->totalTicks);
+    // kernel->scheduler->lastThread = kernel->currentThread;
+    DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
     
 	nextThread = kernel->scheduler->FindNextToRun();
 	if (nextThread != NULL) {
         //
-        this->setendTime(kernel->stats->totalTicks);
-        kernel->scheduler->lastThread = kernel->currentThread;
-        DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
+        
         //
 		kernel->scheduler->ReadyToRun(this);
 		kernel->scheduler->Run(nextThread, FALSE);
@@ -275,7 +277,7 @@ Thread::Sleep (bool finishing)
 	DEBUG(dbgThread, "Sleeping thread: " << name);
     ///
     kernel->currentThread->setendTime(kernel->stats->totalTicks);
-    kernel->scheduler->lastThread = kernel->currentThread;
+    // kernel->scheduler->lastThread = kernel->currentThread;
     DEBUG(dbgSJF, "[" << this->getID() << "] SLEEP setendTime: " << kernel->stats->totalTicks);
     ///
 	status = BLOCKED;
