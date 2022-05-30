@@ -227,7 +227,7 @@ Thread::Yield ()
     this->setendTime(kernel->stats->totalTicks);
     // kernel->scheduler->lastThread = kernel->currentThread;
     DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
-    
+
 	nextThread = kernel->scheduler->FindNextToRun();
 	if (nextThread != NULL) {
         //
@@ -279,11 +279,12 @@ Thread::Sleep (bool finishing)
     kernel->currentThread->setendTime(kernel->stats->totalTicks);
     // kernel->scheduler->lastThread = kernel->currentThread;
     DEBUG(dbgSJF, "[" << this->getID() << "] SLEEP setendTime: " << kernel->stats->totalTicks);
+    kernel->scheduler->setBurstTime(this->getT());
     ///
 	status = BLOCKED;
 	while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL)
 		kernel->interrupt->Idle();	// no one to run, wait for an interrupt
-
+    
 		// returns when it's time for us to run
 	kernel->scheduler->Run(nextThread, finishing);
 }

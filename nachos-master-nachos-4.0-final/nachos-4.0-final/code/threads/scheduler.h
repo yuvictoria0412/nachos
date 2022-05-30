@@ -40,8 +40,9 @@ class Scheduler {
    
     // SelfTest for scheduler is implemented in class Thread
     void setPreviousBT(int x) {PreviousBurstTime = x;}
-	Thread* lastThread;
-
+	// Thread* lastThread;
+	void setBurstTime(int x) {BurstTime = x;}
+	void addBurstTime(int x) {BurstTime += x;}
   private:
 	SchedulerType schedulerType;
 	// List<Thread *> *readyList;	// queue of threads that are ready to run,
@@ -52,7 +53,7 @@ class Scheduler {
 	// static int (*comp)(Thread* x, Thread* y);
 	SortedList<Thread *> *readyQueue;
 	int PreviousBurstTime;
-	
+	int BurstTime;
 	//<TODO>
 
 	Thread *toBeDestroyed;		// finishing thread to be destroyed
