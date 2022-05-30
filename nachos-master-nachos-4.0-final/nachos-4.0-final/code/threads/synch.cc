@@ -89,7 +89,8 @@ Semaphore::P()
     while (value == 0) { 		// semaphore not available
     	queue->Append(currentThread);	// so go to sleep
     	currentThread->Sleep(FALSE);
-        // cout << "Run to Waiting over" << endl;
+        cout << "Run to Waiting over" << endl;
+        DEBUG(dbgSJF, "Semaphore P called to sleep " << currentThread->getID());
     } 
     value--; 			// semaphore available, consume its value
    

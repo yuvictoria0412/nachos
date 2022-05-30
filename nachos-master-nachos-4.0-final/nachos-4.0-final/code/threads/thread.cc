@@ -187,7 +187,7 @@ Thread::Finish ()
     ASSERT(this == kernel->currentThread);
     
     DEBUG(dbgThread, "Finishing thread: " << name << ", ID: " << ID);
-
+    DEBUG(dbgSJF, "Finishing thread: " << kernel->currentThread->getID());
     Sleep(TRUE);				// invokes SWITCH
     // not reached
 }
