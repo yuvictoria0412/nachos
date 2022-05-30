@@ -35,8 +35,8 @@
 // Hint: Funtion Type should be "static int"
 int SJFcmp (Thread* a, Thread* b) {
     if (a->getPredictedBurstTime() == b->getPredictedBurstTime()) {
-        if (a->getID() > b->getID()) return -1;
-        else if (a->getID() < b->getID()) return 1;
+        if (a->getID() < b->getID()) return -1;
+        else if (a->getID() > b->getID()) return 1;
         else return 0;
     }
     else if (a->getPredictedBurstTime() < b->getPredictedBurstTime()) {return -1;}
@@ -114,7 +114,7 @@ Scheduler::ReadyToRun (Thread *thread)
                 "]'s burst time are [" << kernel->currentThread->getPredictedBurstTime() <<
                   "] and [" << thread->getPredictedBurstTime() << "]***");
 
-   if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
+   if (SJFcmp(thread, kernel->currentThread) < 0) {
         // DEBUG(dbgSJF, "              preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
         // kernel->currentThread->setendTime(kernel->stats->totalTicks);
         // this->lastThread = kernel->currentThread;
