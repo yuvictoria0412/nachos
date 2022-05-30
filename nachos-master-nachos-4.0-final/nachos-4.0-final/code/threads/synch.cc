@@ -116,7 +116,7 @@ Semaphore::V()
     
     if (!queue->IsEmpty()) {  // make thread ready.
 	   kernel->scheduler->ReadyToRun(queue->RemoveFront());
-       // cout << "Ready to Run over" << endl;
+       cout << "Ready to Run over" << endl;
     }
     value++;
     
