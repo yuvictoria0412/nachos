@@ -114,7 +114,7 @@ Scheduler::ReadyToRun (Thread *thread)
                 "]'s burst time are [" << kernel->currentThread->getPredictedBurstTime() <<
                   "] and [" << thread->getPredictedBurstTime() << "]***");
 
-   if (SJFcmp(thread, kernel->currentThread) < 0) {
+   if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
         // DEBUG(dbgSJF, "              preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
         // kernel->currentThread->setendTime(kernel->stats->totalTicks);
         // this->lastThread = kernel->currentThread;
