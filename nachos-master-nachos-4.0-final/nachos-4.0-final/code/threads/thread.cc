@@ -225,6 +225,7 @@ Thread::Yield ()
 	DEBUG(dbgThread, "Yielding thread: " << name);
 
     this->setendTime(kernel->stats->totalTicks);
+    kernel->scheduler->setBurstTime(this->getT());
     // kernel->scheduler->lastThread = kernel->currentThread;
     DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
 
@@ -234,6 +235,10 @@ Thread::Yield ()
         
         //
 		kernel->scheduler->ReadyToRun(this);
+        DEBUG(dbgSJF, "<YS> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now 
+                selected for execution, thread [" << this->getID() << "] is replaced, and it has 
+                executed [" << this->getT() << "] ticks");
+
 		kernel->scheduler->Run(nextThread, FALSE);
 	}
 	(void)kernel->interrupt->SetLevel(oldLevel);
@@ -276,7 +281,7 @@ Thread::Sleep (bool finishing)
 
 	DEBUG(dbgThread, "Sleeping thread: " << name);
     ///
-    kernel->currentThread->setendTime(kernel->stats->totalTicks);
+    this->setendTime(kernel->stats->totalTicks);
     // kernel->scheduler->lastThread = kernel->currentThread;
     DEBUG(dbgSJF, "[" << this->getID() << "] SLEEP setendTime: " << kernel->stats->totalTicks);
     kernel->scheduler->setBurstTime(this->getT());
@@ -286,6 +291,9 @@ Thread::Sleep (bool finishing)
 		kernel->interrupt->Idle();	// no one to run, wait for an interrupt
     
 		// returns when it's time for us to run
+    DEBUG(dbgSJF, "<S> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now 
+                selected for execution, thread [" << this->getID() << "] is replaced, and it has 
+                executed [" << this->getT() << "] ticks");
 	kernel->scheduler->Run(nextThread, finishing);
 }
 //<TODO>

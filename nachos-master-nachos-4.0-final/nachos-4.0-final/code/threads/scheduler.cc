@@ -96,16 +96,22 @@ Scheduler::ReadyToRun (Thread *thread)
         DEBUG(dbgSJF, "[" <<  kernel->currentThread->getID() << "] init ");
     }
     else {
+        int preBT = PreviousBurstTime;
         thread->setPredictedBurstTime(0.5 * BurstTime + 0.5 * PreviousBurstTime);
-        // DEBUG(dbgSJF, "[" << lastThread->getID() << "] current thread T/start/end " << lastThread->getT() << " / " << lastThread->getstartTime() << " / " << lastThread->getendTime());
+        kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
         DEBUG(dbgSJF, "[" << thread->getID() << "] : predicted burst time = " << thread->getPredictedBurstTime());
         DEBUG(dbgSJF, "previous burst time = " << PreviousBurstTime);
         DEBUG(dbgSJF, "burst time = " << BurstTime);
-        kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
+        //
+        DEBUG(dbgSJF, "<U> Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << 
+            "] update approximate burst time, from: [" << preBT << "] + [" << BurstTime << "], to [" << PreviousBurstTime << "]");
+        //
     }
     
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
+    DEBUG(dbgSJF, "***Thread [" << thread->getID() << "]'s and thread [" << thread->getID() << "]'s burst time are 
+                    [" << kernel->currentThread->getPredictedBurstTime() <<  "] and [" << thread->getPredictedBurstTime()<<  "]***");
 
    if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
         DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
@@ -123,6 +129,9 @@ Scheduler::ReadyToRun (Thread *thread)
         DEBUG(dbgSJF, "Putting thread on ready list: " << thread->getID());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
+        
+        DEBUG(dbgSJF, "<I> Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << "] is inserted into 
+                        readyQueue");
     }
     
 }
@@ -147,7 +156,9 @@ Scheduler::FindNextToRun ()
 		return NULL;
 	}
 	else {
-		return readyQueue->RemoveFront();
+		DEBUG(dgbSJF, "<R> Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << "] is removed from 
+                    readyQueue");
+        return readyQueue->RemoveFront();
 	}
 }
 //<TODO>
