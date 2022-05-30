@@ -96,17 +96,17 @@ Scheduler::ReadyToRun (Thread *thread)
     }
     else {
         thread->setPredictedBurstTime(0.5 * BurstTime + 0.5 * PreviousBurstTime);
-        kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
         // DEBUG(dbgSJF, "[" << lastThread->getID() << "] current thread T/start/end " << lastThread->getT() << " / " << lastThread->getstartTime() << " / " << lastThread->getendTime());
         DEBUG(dbgSJF, "[" << thread->getID() << "] : predicted burst time = " << thread->getPredictedBurstTime());
         DEBUG(dbgSJF, "previous burst time = " << PreviousBurstTime);
         DEBUG(dbgSJF, "burst time = " << BurstTime);
+        kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
     }
     
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-   if (kernel->currentThread->getID() != 0 && kernel->currentThread->getID() != thread->getID() && SJFcmp(thread, kernel->currentThread) < 0) {
+   if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
         DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
         kernel->currentThread->setendTime(kernel->stats->totalTicks);
         // this->lastThread = kernel->currentThread;
