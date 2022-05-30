@@ -96,7 +96,7 @@ Scheduler::ReadyToRun (Thread *thread)
         DEBUG(dbgSJF, "[" <<  kernel->currentThread->getID() << "] init ");
     }
     else {
-        int preBT = PreviousBurstTime;
+        int preBT = PreviousBurstTime, BT = BurstTime;
         thread->setPredictedBurstTime(0.5 * BurstTime + 0.5 * PreviousBurstTime);
         kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
         // DEBUG(dbgSJF, "[" << thread->getID() << "] : predicted burst time = " << thread->getPredictedBurstTime());
@@ -104,7 +104,7 @@ Scheduler::ReadyToRun (Thread *thread)
         // DEBUG(dbgSJF, "burst time = " << BurstTime);
         //
         DEBUG(dbgSJF, "<U> Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << 
-            "] update approximate burst time, from: [" << preBT << "] + [" << BurstTime << "], to [" << PreviousBurstTime << "]");
+            "] update approximate burst time, from: [" << preBT << "] + [" << BT << "], to [" << PreviousBurstTime << "]");
         //
     }
     
