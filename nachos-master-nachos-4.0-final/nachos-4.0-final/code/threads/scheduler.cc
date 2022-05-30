@@ -157,9 +157,10 @@ Scheduler::FindNextToRun ()
 		return NULL;
 	}
 	else {
-		DEBUG(dgbSJF, "<R> Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << 
+        Thread* temp = readyQueue->RemoveFront();
+		DEBUG(dgbSJF, "<R> Tick [" << kernel->stats->totalTicks << "]: Thread [" << temp->getID() << 
                 "] is removed from readyQueue");
-        return readyQueue->RemoveFront();
+        return temp;
 	}
 }
 //<TODO>
