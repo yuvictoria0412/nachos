@@ -117,7 +117,7 @@ Semaphore::V()
     if (!queue->IsEmpty()) {  // make thread ready.
 	   kernel->scheduler->ReadyToRun(queue->RemoveFront());
     //    cout << "Ready to Run over"  << currentThread->getID() << endl;
-        DEBUG(dbgSJF, "Run to Run over" << currentThread->getID());
+        DEBUG(dbgSJF, "Run to Run over" << kernel->currentThread->getID());
     }
     value++;
     
