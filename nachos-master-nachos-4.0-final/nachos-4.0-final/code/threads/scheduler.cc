@@ -114,14 +114,17 @@ Scheduler::ReadyToRun (Thread *thread)
         // DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "] PREEMPT setendTime: " << kernel->stats->totalTicks);
         // kernel->scheduler->ReadyToRun(kernel->currentThread);
         // kernel->scheduler->Run(thread, FALSE);
+        thread->setStatus(READY);
+        readyQueue->Insert(thread);
         kernel->interrupt->YieldOnReturn();
     }
     else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
         DEBUG(dbgSJF, "Putting thread on ready list: " << thread->getID());
+        thread->setStatus(READY);
+        readyQueue->Insert(thread);
     }
-    thread->setStatus(READY);
-    readyQueue->Insert(thread);
+    
 }
 //<TODO>
 
