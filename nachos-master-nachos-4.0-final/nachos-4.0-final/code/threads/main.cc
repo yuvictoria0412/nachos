@@ -74,8 +74,8 @@ main(int argc, char **argv)
     }
     debug = new Debug(debugArg);
     
-    DEBUG(dbgThread, "Entering main 1");
-    DEBUG(dbgSJF, "Entering main 2");
+    DEBUG(dbgThread, "Entering main");
+    // DEBUG(dbgSJF, "Entering main 2");
 
     kernel = new KernelType(argc, argv);
     kernel->Initialize();
@@ -89,7 +89,7 @@ main(int argc, char **argv)
     // kernel->Run();
     
     kernel->InitializeAllThreads();
-    DEBUG(dbgSJF, "Entering main 3");
+    // DEBUG(dbgSJF, "Entering main 3");
     //<REPORT>
 
     
