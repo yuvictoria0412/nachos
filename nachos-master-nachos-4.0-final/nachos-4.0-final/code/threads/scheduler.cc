@@ -52,6 +52,7 @@ Scheduler::Scheduler()
     // schedulerType = type;
 	// readyList = new List<Thread*>;
     setPreviousBT(0);
+    setBurstTime(0);
     readyQueue = new SortedList<Thread *>(SJFcmp);
     // lastBTime = 0;
 	toBeDestroyed = NULL;
@@ -108,18 +109,19 @@ Scheduler::ReadyToRun (Thread *thread)
 
    if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
         DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
-        kernel->currentThread->setendTime(kernel->stats->totalTicks);
+        // kernel->currentThread->setendTime(kernel->stats->totalTicks);
         // this->lastThread = kernel->currentThread;
-        DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "] PREEMPT setendTime: " << kernel->stats->totalTicks);
-        kernel->scheduler->ReadyToRun(kernel->currentThread);
-        kernel->scheduler->Run(thread, FALSE);
+        // DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "] PREEMPT setendTime: " << kernel->stats->totalTicks);
+        // kernel->scheduler->ReadyToRun(kernel->currentThread);
+        // kernel->scheduler->Run(thread, FALSE);
+        kernel->interrupt->YieldOnReturn();
     }
     else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
         DEBUG(dbgSJF, "Putting thread on ready list: " << thread->getID());
-        thread->setStatus(READY);
-        readyQueue->Insert(thread);
     }
+    thread->setStatus(READY);
+    readyQueue->Insert(thread);
 }
 //<TODO>
 
