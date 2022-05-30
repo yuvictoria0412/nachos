@@ -123,7 +123,7 @@ Scheduler::ReadyToRun (Thread *thread)
         // kernel->scheduler->Run(thread, FALSE);
         thread->setStatus(READY);
         readyQueue->Insert(thread);
-        kernel->interrupt->YieldOnReturn();
+        kernel->interrupt->yieldOnReturn = TRUE;
     }
     else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
