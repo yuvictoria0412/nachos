@@ -110,9 +110,7 @@ Scheduler::ReadyToRun (Thread *thread)
     
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
-    DEBUG(dbgSJF, "***Thread [" << kernel->currentThread->getID() << "]'s and thread [" << thread->getID() << 
-                "]'s burst time are [" << kernel->currentThread->getPredictedBurstTime() <<
-                  "] and [" << thread->getPredictedBurstTime() << "]***");
+    
 
    if (kernel->currentThread->getID() != 0 && SJFcmp(thread, kernel->currentThread) < 0) {
         // DEBUG(dbgSJF, "              preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
@@ -127,6 +125,9 @@ Scheduler::ReadyToRun (Thread *thread)
     }
     else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
+        DEBUG(dbgSJF, "***Thread [" << kernel->currentThread->getID() << "]'s and thread [" << thread->getID() << 
+                "]'s burst time are [" << kernel->currentThread->getPredictedBurstTime() <<
+                  "] and [" << thread->getPredictedBurstTime() << "]***");
         // DEBUG(dbgSJF, "              Putting thread on ready list: " << thread->getID());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
