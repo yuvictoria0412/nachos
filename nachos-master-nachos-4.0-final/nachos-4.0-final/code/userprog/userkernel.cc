@@ -168,7 +168,7 @@ UserProgKernel::SelfTest() {
 void
 ForkExecute(Thread *t)
 {
-	cout << "Thread: " << (void *) t << endl;
+	// cout << "Thread: " << (void *) t << endl;
 	DEBUG(dbgSJF, "ForkExecute => fork thread id: " << t->getID() << ", currentTick: " << kernel->stats->totalTicks);
 	t->space->Execute(t->getName());
 }
@@ -195,9 +195,9 @@ void
 UserProgKernel::InitializeAllThreads()
 {
     for (int i = 1; i <= execfileNum; i++){
-        cout << "execfile[" << i << "]: " << execfile[i] << " start " << endl;
+        // cout << "execfile[" << i << "]: " << execfile[i] << " start " << endl;
         int a = InitializeOneThread(execfile[i]);
-        cout << "execfile[" << i << "]: " << execfile[i] << " end "<< endl;
+        // cout << "execfile[" << i << "]: " << execfile[i] << " end "<< endl;
     }
     // After InitializeAllThreads(), let main thread be terminated that we can start to run our thread.
     currentThread->Finish();
