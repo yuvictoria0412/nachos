@@ -99,20 +99,22 @@ Scheduler::ReadyToRun (Thread *thread)
         kernel->scheduler->setPreviousBT(thread->getPredictedBurstTime());
         // DEBUG(dbgSJF, "[" << lastThread->getID() << "] current thread T/start/end " << lastThread->getT() << " / " << lastThread->getstartTime() << " / " << lastThread->getendTime());
         DEBUG(dbgSJF, "[" << thread->getID() << "] : predicted burst time = " << thread->getPredictedBurstTime());
+        DEBUG(dbgSJF, "previous burst time = " << PreviousBurstTime);
+        DEBUG(dbgSJF, "burst time = " << BurstTime);
     }
     
 
     // DEBUG(dbgSJF, "Preempppppp : " << kernel->currentThread->getPredictedBurstTime() << " , " << thread->getPredictedBurstTime());
 
-    // if (kernel->currentThread->getID() != 0 && kernel->currentThread->getID() != thread->getID() && SJFcmp(thread, kernel->currentThread) < 0) {
-    //     DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
-    //     kernel->currentThread->setendTime(kernel->stats->totalTicks);
-    //     this->lastThread = kernel->currentThread;
-    //     DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "] PREEMPT setendTime: " << kernel->stats->totalTicks);
-    //     kernel->scheduler->ReadyToRun(kernel->currentThread);
-    //     kernel->scheduler->Run(thread, FALSE);
-    // }
-    // else {
+    if (kernel->currentThread->getID() != 0 && kernel->currentThread->getID() != thread->getID() && SJFcmp(thread, kernel->currentThread) < 0) {
+        DEBUG(dbgSJF, "preempt happens : " << kernel->currentThread->getID() << " -> " << thread->getID());
+        kernel->currentThread->setendTime(kernel->stats->totalTicks);
+        // this->lastThread = kernel->currentThread;
+        DEBUG(dbgSJF, "[" << kernel->currentThread->getID() << "] PREEMPT setendTime: " << kernel->stats->totalTicks);
+        kernel->scheduler->ReadyToRun(kernel->currentThread);
+        kernel->scheduler->Run(thread, FALSE);
+    }
+    else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
         DEBUG(dbgSJF, "Putting thread on ready list: " << thread->getID());
         thread->setStatus(READY);
