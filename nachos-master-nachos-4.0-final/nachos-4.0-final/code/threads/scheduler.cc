@@ -158,7 +158,7 @@ Scheduler::FindNextToRun ()
 	}
 	else {
         Thread* temp = readyQueue->RemoveFront();
-		DEBUG(dgbSJF, "<R> Tick [" << kernel->stats->totalTicks << "]: Thread [" << temp->getID() << 
+		DEBUG(dbgSJF, "<R> Tick [" << kernel->stats->totalTicks << "]: Thread [" << temp->getID() << 
                 "] is removed from readyQueue");
         return temp;
 	}
