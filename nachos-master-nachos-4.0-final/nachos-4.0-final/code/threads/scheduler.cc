@@ -125,9 +125,11 @@ Scheduler::ReadyToRun (Thread *thread)
     }
     else {
         DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
-        DEBUG(dbgSJF, "***Thread [" << kernel->currentThread->getID() << "]'s and thread [" << thread->getID() << 
+        if (thread->getID() != kernel->currentThread->getID()) {
+            DEBUG(dbgSJF, "***Thread [" << kernel->currentThread->getID() << "]'s and thread [" << thread->getID() << 
                 "]'s burst time are [" << kernel->currentThread->getPredictedBurstTime() <<
                   "] and [" << thread->getPredictedBurstTime() << "]***");
+        }
         // DEBUG(dbgSJF, "              Putting thread on ready list: " << thread->getID());
         thread->setStatus(READY);
         readyQueue->Insert(thread);
