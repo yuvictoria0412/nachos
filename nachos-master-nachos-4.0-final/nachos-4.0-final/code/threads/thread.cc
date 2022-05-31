@@ -226,23 +226,21 @@ Thread::Yield ()
 
     this->setendTime(kernel->stats->totalTicks);
     kernel->scheduler->setBurstTime(this->getT());
-
+    nextThread = kernel->scheduler->FindNextToRun();
     DEBUG(dbgThread, "Yielding thread: " << name);
-    DEBUG(dbgSJF, "<YS> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << 
-                "] is now selected for execution, thread [" << this->getID() << 
-                "] is replaced, and it has executed [" << this->getT() << "] ticks");
-                
-    // cout << "updated burst time" << this->getT() << endl;
-    // kernel->scheduler->lastThread = kernel->currentThread;
-    // DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
+    
 
-	nextThread = kernel->scheduler->FindNextToRun();
+	
 	if (nextThread != NULL) {
 		
         
         kernel->scheduler->ReadyToRun(this);
 		kernel->scheduler->Run(nextThread, FALSE);
 	}
+    DEBUG(dbgSJF, "<YS> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << 
+                "] is now selected for execution, thread [" << this->getID() << 
+                "] is replaced, and it has executed [" << this->getT() <<
+                 "] ticks");
 	(void)kernel->interrupt->SetLevel(oldLevel);
 }
 //<TODO>
