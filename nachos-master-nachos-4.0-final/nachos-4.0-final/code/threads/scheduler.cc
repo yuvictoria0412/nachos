@@ -104,7 +104,7 @@ Scheduler::ReadyToRun (Thread *thread)
         // DEBUG(dbgSJF, "burst time = " << BurstTime);
         //
         DEBUG(dbgSJF, "<U> Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << 
-            "] update approximate burst time, from: [" << preBT << "] + [" << BT << "], to [" << PreviousBurstTime << "]");
+            "] update approximate burst time, from: [" << preBT << "] + [" << thread->getT() << "], to [" << PreviousBurstTime << "]");
         //
     }
     
