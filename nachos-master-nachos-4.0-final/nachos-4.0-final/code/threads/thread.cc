@@ -222,13 +222,16 @@ Thread::Yield ()
 
 	ASSERT(this == kernel->currentThread);
 
-	DEBUG(dbgThread, "Yielding thread: " << name);
+	
+
+    this->setendTime(kernel->stats->totalTicks);
+    kernel->scheduler->setBurstTime(this->getT());
+
+    DEBUG(dbgThread, "Yielding thread: " << name);
     DEBUG(dbgSJF, "<YS> Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << 
                 "] is now selected for execution, thread [" << this->getID() << 
                 "] is replaced, and it has executed [" << this->getT() << "] ticks");
                 
-    this->setendTime(kernel->stats->totalTicks);
-    kernel->scheduler->setBurstTime(this->getT());
     // cout << "updated burst time" << this->getT() << endl;
     // kernel->scheduler->lastThread = kernel->currentThread;
     // DEBUG(dbgSJF, "[" << this->getID() << "] YIELD setendTime: " << kernel->stats->totalTicks);
