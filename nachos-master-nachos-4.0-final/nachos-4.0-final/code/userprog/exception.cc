@@ -63,7 +63,7 @@ ExceptionHandler(ExceptionType which)
    		    kernel->interrupt->Halt();
 		    break;
 		case SC_PrintInt:
-			// DEBUG(dbgMLFQ, "Print Int");
+			DEBUG(dbgMLFQ, "Print Int");
 			val=kernel->machine->ReadRegister(4);
 			kernel->synchConsoleOut->PutInt(val);
 			// DEBUG(dbgSJF, "PrintInt: " << kernel->currentThread->getID());
