@@ -64,10 +64,10 @@ ExceptionHandler(ExceptionType which)
 		    break;
 		case SC_PrintInt:
 			// DEBUG(dbgMLFQ, "Print Int");
-			cout << "Print integer:" <<val << endl;
 			val=kernel->machine->ReadRegister(4);
 			kernel->synchConsoleOut->PutInt(val);
 			// DEBUG(dbgSJF, "PrintInt: " << kernel->currentThread->getID());
+			cout << "Print integer:" <<val << endl;
 			return;
 /*		case SC_Exec:
 			DEBUG(dbgAddr, "Exec\n");
