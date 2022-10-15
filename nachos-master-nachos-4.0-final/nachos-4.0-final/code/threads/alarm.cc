@@ -61,7 +61,7 @@ Alarm::CallBack()
 		}
 	}
 	else {			// there's someone to preempt
-		// interrupt->YieldOnReturn();
+		interrupt->YieldOnReturn();
 	}
 }
 //<TODO>
