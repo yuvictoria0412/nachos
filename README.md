@@ -1,4 +1,4 @@
-# Operating System Programming Project - Nachos
+# Operating System Final Project - Nachos
 1. Topic: Scheduling
 2. Implementation:
     (1) Implement preemptive shortest job first
